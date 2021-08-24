@@ -2,7 +2,7 @@ import axios from "../../config/axios";
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import style from './Login.module.scss';
-import img from '../../assets/img/login.jpg';
+import img from '../../assets/img/login.jpg'
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");

@@ -5,7 +5,7 @@ import {
     Switch,
     Route
 } from 'react-router-dom';
-import Dashboard from './pages/dashboard/dashboard';
+import Dashboard from './pages/dashboard';
 import Login from './pages/login/login';
 import Signup from './pages/signup/signup';
 

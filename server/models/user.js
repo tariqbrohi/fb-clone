@@ -1,6 +1,7 @@
-let mongoose = require('mongoose');
 let bcrypt = require('bcryptjs');
-let Schema = mongoose.Schema;
+let instances = require('./instance');
+let Schema = instances.Schema;
+let mongoose = instances.mongoose;
 let userSchema = new Schema(
     {
         firstName: {type: String, required: true, createIndexes: {unique: true}},

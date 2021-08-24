@@ -7,18 +7,17 @@ const router = require('./router');
 // 6120b36babff672184efa238 Khalil
 // 6120b406abff672184efa23a Ahmad
 router.get('/users', (req, res) => {
-    userSchema.find({}, (err, user) => {
+    userSchema.find({}, (err, users) => {
         if(err) {
             res.send(err);
         } else {
-            res.send(user);
+            res.send(users);
         }
     })
 })
 
 router.get('/user/:id', (req, res) => {
     let userID = req.params.id;
-    console.log(userID);
     userSchema.findById(userID, (err, user) => {
         if(err) {
             res.send(err);
