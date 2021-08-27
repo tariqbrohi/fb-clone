@@ -5,13 +5,11 @@ const fs = require('fs');
 const path= require('path');
 router.post('/post', instances.upload.single('image'), (req, res, next) => {
     console.log(req.body);
+    console.log(req.file)
     let post = new postSchema({
         userId: req.body.userId,
         description: req.body.description,
-        img: {
-            data: fs.readFileSync(req.body.fileName),
-            contentType: 'image/png'
-        }
+        img: req.body.file + ''
     });
     postSchema.create(post, (err, postRes) => {
         if(err) {
@@ -30,7 +28,32 @@ router.get('/posts/:userID', (req, res, next) => {
 })
 
 router.delete('/post/:id', (req, res, next) => {
-    res.send("Delete Post");
+    let id = req.params.id;
+    postSchema.findByIdAndDelete(id, (err, post) => {
+        if(err) {
+            res.status(500).json({
+                error: err
+            })
+        } else {
+            res.status(200).json({
+                post: post
+            })
+        }
+    })
+})
+
+router.delete('/posts', (req, res, next) => {
+    postSchema.deleteMany({}, (err, post) => {
+        if(err) {
+            res.status(500).json({
+                error: err
+            })
+        } else {
+            res.status(200).json({
+                post: post
+            })
+        }
+    })
 })
 
 router.get('/posts', (req, res, next) => {
@@ -43,6 +66,12 @@ router.get('/posts', (req, res, next) => {
             })
         }
     })
+})
+
+router.post('/imgTest',instances.upload.single('image'), (req, res) => {
+    console.log(req.body);
+    console.log(req.file);
+    res.send("image Saved");
 })
 
 

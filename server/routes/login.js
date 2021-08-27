@@ -4,10 +4,6 @@ var jwt = require('jsonwebtoken');
 router.get('/user/auth/:email/:password', (req, res) => {
     let username = req.params.email;
     let password = req.params.password;
-    // let loginUser = {
-    //     email: username,
-    //     password: password
-    // };
     userSchema.findOne({ email: username }).exec(function (err, user) {
         if (err) {
             res.status(500).json({
@@ -28,15 +24,16 @@ router.get('/user/auth/:email/:password', (req, res) => {
                         error: "Password does not match"
                     })
                 } else {
-                    jwt.sign(username, 'shhhhh', (err, token) => {
-                        if (err) {
-                            console.log(err);
+                    jwt.sign(username, 'shhhhh', (er, token) => {
+                        if (er) {
+                            console.log(er);
                             res.status(500).json({
-                                error: err
+                                error: er
                             });
                         } else {
                             res.status(200).json({
-                                token: token
+                                token: token,
+                                user_id: user._id
                             });
                         }
                     })

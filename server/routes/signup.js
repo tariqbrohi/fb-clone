@@ -16,15 +16,16 @@ router.post('/user/auth', (req, res) => {
                 error: err
             });
         } else {
+            console.log("Check1");
             jwt.sign({
                 username: req.body.email,
                 password: req.body.password
             },
-            'shhhhh', (err, token) => {
-                if(err) {
-                    console.log(err);
+            'shhhhh', (error, token) => {
+                if(error) {
+                    console.log(error);
                     res.status(500).json({
-                        error: err
+                        error: error
                     });
                 } else {
                     console.log(token);

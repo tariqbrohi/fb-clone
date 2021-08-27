@@ -4,12 +4,9 @@ let Schema = instances.Schema;
 let User = require('./user');
 const post = new Schema({
     userId: {type: Schema.Types.ObjectId, ref: "User", required: true},
-    created: {type: Date, default: Date.now},
     description: {type: String, default: ''},
-    img: {
-        data: Buffer,
-        contentType: String
-    },
+    img: {type: String, default: ''},
+    created: {type: Date, default: Date.now},
     likes: [{user:
         {type: Schema.Types.ObjectId, ref: "User"}
     }],

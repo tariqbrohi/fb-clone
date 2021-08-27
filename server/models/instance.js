@@ -1,9 +1,11 @@
 //Import the mongoose module
 var mongoose = require('mongoose');
 var multer = require('multer');
+const path = require('path')
+var fs = require('fs');
 //Set up default mongoose connection
 var mongoDB = 'mongodb://127.0.0.1/my_database';
-mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Get the default connection
 var db = mongoose.connection;
@@ -12,21 +14,30 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 let Schema = mongoose.Schema;
-// Multer setup for uploading image to server
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-});
- 
-var upload = multer({ storage: storage });
+//multer things
+const imageConfig = multer.diskStorage({
+    destination: function (req, file, cb) {
+        console.log(file);
+        cb(null, './images')
+        const dir = './images';
+        fs.exists(dir, (exist) => {
+            if (!exist) {
+                return fs.mkdir(dir, (error) => cb(error, dir));
+            }
+            return cb(null, dir);
+        });
 
+    },
+    filename: function (req, file, callback) {
+        callback(null, Date.now() + "-" + file.originalname);
+    },
+});
+
+const upload = multer({ storage: imageConfig })
 module.exports = {
     db,
     Schema,
     mongoose,
-    upload
+    upload,
+    multer
 };

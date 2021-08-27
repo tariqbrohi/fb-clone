@@ -9,10 +9,10 @@ const Login = () => {
     const handleClick = (e) => {
         e.preventDefault();
         let url = '/user/auth/' + username + "/" + password;
-        console.log(url);
         axios.get(url)
             .then(function (res) {
                 localStorage.setItem("jwt-token", res.data.token);
+                localStorage.setItem("user_id", res.data.user_id);
                 window.location = '/dashboard';
             })
             .catch(function (err) {
@@ -25,7 +25,6 @@ const Login = () => {
         let url = '/auth/' + token;
         axios.get(url)
             .then((res) => {
-                console.log("In Now:  " + res);
                 if (res) {
                     window.location = '/dashboard';
                 } else {
@@ -35,7 +34,7 @@ const Login = () => {
             .catch((err) => {
                 console.log(err);
             })
-    });
+    }, []);
     return (
         <div className={style.container}>
             <div className={style.wrapper}>
